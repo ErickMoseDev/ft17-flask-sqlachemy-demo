@@ -2,6 +2,10 @@ from flask import Flask
 from models import db
 from flask_migrate import Migrate
 from dotenv import load_dotenv
+from flask_restful import Api
+
+from resources.users import Users, UserByID
+from resources.books import BookByID
 
 # load env vars
 load_dotenv()
@@ -18,3 +22,14 @@ migrate = Migrate(app=app, db=db)
 
 # initialize app to use sqlalchemy
 db.init_app(app=app)
+
+api = Api(app=app)
+
+
+# list our resources
+# user resources
+api.add_resource(Users, "/users")
+api.add_resource(UserByID, "/users/<int:id>")
+
+# book resources
+api.add_resource(BookByID, "/books/<int:id>")

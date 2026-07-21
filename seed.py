@@ -1,8 +1,11 @@
+from datetime import date
 from app import app
-from models import db, User
+from models import db, User, Profile, Book
 
 with app.app_context():
-    db.session.query(User).delete()
+    User.query.delete()
+    Profile.query.delete()
+    Book.query.delete()
 
     users = [
         User(
@@ -130,3 +133,237 @@ with app.app_context():
     db.session.add_all(users)
     db.session.commit()
     print(f"Seeded {len(users)} users.")
+
+    # --- Profiles (one per user, linked via user_id FK) ---
+    (
+        alice,
+        bob,
+        carol,
+        david,
+        eva,
+        frank,
+        grace,
+        henry,
+        irene,
+        james,
+        karen,
+        leo,
+        mia,
+        nathan,
+        olivia,
+        paul,
+        quinn,
+        rachel,
+        samuel,
+        tina,
+    ) = users
+
+    profiles = [
+        Profile(
+            user_id=alice.id,
+            dob=date(1990, 3, 15),
+            gender="female",
+            role="admin",
+            bio="Tech enthusiast and lifelong learner.",
+        ),
+        Profile(
+            user_id=bob.id,
+            dob=date(1985, 7, 22),
+            gender="male",
+            role="staff",
+            bio="Avid reader and coffee lover.",
+        ),
+        Profile(
+            user_id=carol.id,
+            dob=date(1993, 11, 5),
+            gender="female",
+            role="user",
+            bio="Passionate about literature and travel.",
+        ),
+        Profile(
+            user_id=david.id,
+            dob=date(1988, 1, 30),
+            gender="male",
+            role="staff",
+            bio="Software developer by day, writer by night.",
+        ),
+        Profile(
+            user_id=eva.id,
+            dob=date(1995, 6, 18),
+            gender="female",
+            role="user",
+            bio="Loves sci-fi novels and hiking.",
+        ),
+        Profile(
+            user_id=frank.id,
+            dob=date(1980, 9, 11),
+            gender="male",
+            role="admin",
+            bio="Veteran programmer and open-source advocate.",
+        ),
+        Profile(
+            user_id=grace.id,
+            dob=date(1992, 4, 25),
+            gender="female",
+            role="user",
+            bio="Bookworm with a passion for history.",
+        ),
+        Profile(
+            user_id=henry.id,
+            dob=date(1987, 12, 3),
+            gender="male",
+            role="staff",
+            bio="Sports fan and amateur novelist.",
+        ),
+        Profile(
+            user_id=irene.id,
+            dob=date(1994, 8, 14),
+            gender="female",
+            role="user",
+            bio="Graphic designer and fantasy fiction fan.",
+        ),
+        Profile(
+            user_id=james.id,
+            dob=date(1983, 2, 19),
+            gender="male",
+            role="staff",
+            bio="Data scientist with a love for thrillers.",
+        ),
+        Profile(
+            user_id=karen.id,
+            dob=date(1991, 5, 7),
+            gender="female",
+            role="user",
+            bio="Teacher and children's book enthusiast.",
+        ),
+        Profile(
+            user_id=leo.id,
+            dob=date(1989, 10, 23),
+            gender="male",
+            role="user",
+            bio="Philosopher and mystery genre devotee.",
+        ),
+        Profile(
+            user_id=mia.id,
+            dob=date(1997, 1, 12),
+            gender="female",
+            role="user",
+            bio="Young entrepreneur and self-help book fan.",
+        ),
+        Profile(
+            user_id=nathan.id,
+            dob=date(1986, 7, 9),
+            gender="male",
+            role="staff",
+            bio="Marketing manager and biography reader.",
+        ),
+        Profile(
+            user_id=olivia.id,
+            dob=date(1990, 3, 28),
+            gender="female",
+            role="user",
+            bio="Nurse who unwinds with romance novels.",
+        ),
+        Profile(
+            user_id=paul.id,
+            dob=date(1984, 11, 17),
+            gender="male",
+            role="admin",
+            bio="Architect with a keen interest in design books.",
+        ),
+        Profile(
+            user_id=quinn.id,
+            dob=date(1996, 6, 30),
+            gender="male",
+            role="user",
+            bio="Music producer and poetry lover.",
+        ),
+        Profile(
+            user_id=rachel.id,
+            dob=date(1993, 9, 4),
+            gender="female",
+            role="user",
+            bio="Environmental scientist and nature writer.",
+        ),
+        Profile(
+            user_id=samuel.id,
+            dob=date(1981, 4, 16),
+            gender="male",
+            role="staff",
+            bio="Chef who enjoys culinary and travel memoirs.",
+        ),
+        Profile(
+            user_id=tina.id,
+            dob=date(1998, 12, 21),
+            gender="female",
+            role="user",
+            bio="Film student fascinated by screenwriting.",
+        ),
+    ]
+
+    db.session.add_all(profiles)
+    db.session.commit()
+    print(f"Seeded {len(profiles)} profiles.")
+
+    # --- Books (linked to users via user_id FK) ---
+    books = [
+        # Alice's books
+        Book(title="The Code Whisperer", genre="Technology", user_id=alice.id),
+        Book(title="Algorithms of the Heart", genre="Romance", user_id=alice.id),
+        # Bob's books
+        Book(title="Brewed Awakening", genre="Fiction", user_id=bob.id),
+        Book(title="Chapters of Silence", genre="Drama", user_id=bob.id),
+        # Carol's books
+        Book(title="Wanderlust Chronicles", genre="Travel", user_id=carol.id),
+        # David's books
+        Book(title="Midnight Pull Requests", genre="Technology", user_id=david.id),
+        Book(title="The Debugger's Diary", genre="Comedy", user_id=david.id),
+        Book(title="Refactoring Life", genre="Self-Help", user_id=david.id),
+        # Eva's books
+        Book(title="Stars Beyond the Firewall", genre="Sci-Fi", user_id=eva.id),
+        Book(title="Trail Blazers", genre="Adventure", user_id=eva.id),
+        # Frank's books
+        Book(title="Open Source Odyssey", genre="Technology", user_id=frank.id),
+        # Grace's books
+        Book(title="Pages of the Past", genre="History", user_id=grace.id),
+        Book(title="The Archivist", genre="Mystery", user_id=grace.id),
+        # Henry's books
+        Book(title="Overtime", genre="Sports", user_id=henry.id),
+        Book(title="The Last Draft", genre="Fiction", user_id=henry.id),
+        # Irene's books
+        Book(title="Pixels and Dragons", genre="Fantasy", user_id=irene.id),
+        # James's books
+        Book(title="Data Don't Lie", genre="Technology", user_id=james.id),
+        Book(title="The Stockholm Variable", genre="Thriller", user_id=james.id),
+        # Karen's books
+        Book(title="Little Readers", genre="Children", user_id=karen.id),
+        Book(title="The Classroom Garden", genre="Children", user_id=karen.id),
+        # Leo's books
+        Book(title="Socrates in Suburbia", genre="Philosophy", user_id=leo.id),
+        Book(title="The Butler Did It", genre="Mystery", user_id=leo.id),
+        # Mia's books
+        Book(title="Zero to One Hundred", genre="Self-Help", user_id=mia.id),
+        # Nathan's books
+        Book(title="The Brand Inside", genre="Business", user_id=nathan.id),
+        Book(title="Life in Headlines", genre="Biography", user_id=nathan.id),
+        # Olivia's books
+        Book(title="When Hearts Heal", genre="Romance", user_id=olivia.id),
+        # Paul's books
+        Book(title="Blueprint of Dreams", genre="Architecture", user_id=paul.id),
+        Book(title="Spaces and Stories", genre="Design", user_id=paul.id),
+        # Quinn's books
+        Book(title="Verse and Verse Again", genre="Poetry", user_id=quinn.id),
+        # Rachel's books
+        Book(title="Green Chapters", genre="Environment", user_id=rachel.id),
+        Book(title="The River Speaks", genre="Nature", user_id=rachel.id),
+        # Samuel's books
+        Book(title="Flavors I've Known", genre="Memoir", user_id=samuel.id),
+        Book(title="The Wandering Plate", genre="Travel", user_id=samuel.id),
+        # Tina's books
+        Book(title="Cut to Scene", genre="Screenplay", user_id=tina.id),
+        Book(title="Frames of Reference", genre="Film", user_id=tina.id),
+    ]
+
+    db.session.add_all(books)
+    db.session.commit()
+    print(f"Seeded {len(books)} books.")
