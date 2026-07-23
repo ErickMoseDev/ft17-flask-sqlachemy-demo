@@ -1,4 +1,4 @@
-from marshmallow import Schema, fields
+from marshmallow import Schema, fields, ValidationError, validates_schema
 
 
 class ProfileSchema(Schema):
@@ -21,16 +21,38 @@ book_schema = BookSchema()
 
 
 class UserSchema(Schema):
-    id = fields.Int(dump_only=True)  # output only
+    id = fields.Int(dump_only=True)  # output only / serialization
     first_name = fields.Str(required=True)
     last_name = fields.Str(required=True)
     email_address = fields.Email(required=True)
-    phone = fields.Str()
-    password = fields.Str(load_only=True)  # input only
+    phone = fields.Str(required=True)
+    # password = fields.Str(load_only=True)  # input only / deserialization
     created_at = fields.DateTime(dump_only=True)
+    updated_at = fields.DateTime(dump_only=True)
 
+    # relationships
     profile = fields.Nested(ProfileSchema)
     books = fields.List(fields.Nested(BookSchema))
+
+    # validations
+
+    # @validates("phone")
+    # def validate_phone(self, data, **kwargs):
+    #     if len(data) < 10 and len(data) > 10:
+    #         raise ValidationError("phone number must be 10 characters")
+
+    @validates_schema
+    def validate_schema(self, data, **kwargs):
+        errors = {}
+        if all(key in data.keys() for key in ["first_name", "last_name", "phone"]):
+            if len(data["first_name"]) < 1:
+                errors["first_name"] = ["Firstname is required"]
+            if len(data["last_name"]) < 1:
+                errors["last_name"] = ["Lastname is required"]
+            if len(data["phone"]) != 10:
+                errors["phone"] = ["phone number must be 10 characters"]
+        if errors:
+            raise ValidationError(errors)
 
 
 user_schema = UserSchema()
