@@ -54,3 +54,8 @@ This covers the primary methods and functionalities offered by Flask-SQLAlchemy.
 ## Cookie Security
 
 [reference material](https://blog.miguelgrinberg.com/post/cookie-security-for-flask-applications)
+
+## Deployment
+
+- install psycopg2-binary gunicorn
+-
