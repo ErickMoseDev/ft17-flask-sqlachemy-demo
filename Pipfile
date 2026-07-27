@@ -11,6 +11,8 @@ python-dotenv = "*"
 flask-restful = "*"
 marshmallow = "*"
 structlog = "*"
+flask-bcrypt = "*"
+flask-cors = "*"
 
 [dev-packages]
 

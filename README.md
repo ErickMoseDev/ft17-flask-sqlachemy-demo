@@ -50,3 +50,7 @@ While not strictly part of Flask-SQLAlchemy itself, database migrations are a cr
 - **`flask db downgrade`**: Reverts applied migrations.
 
 This covers the primary methods and functionalities offered by Flask-SQLAlchemy. Remember that because it's a wrapper around SQLAlchemy, deeper dives into specific query methods or ORM patterns will often lead you to the core SQLAlchemy documentation.
+
+## Cookie Security
+
+[reference material](https://blog.miguelgrinberg.com/post/cookie-security-for-flask-applications)

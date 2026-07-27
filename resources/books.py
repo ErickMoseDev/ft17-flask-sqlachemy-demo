@@ -1,6 +1,7 @@
 from flask import make_response
 from flask_restful import Resource
-from models import db, Book
+
+from models import Book, db
 from schemas import book_schema
 
 

@@ -1,10 +1,11 @@
 from flask import make_response, request
 from flask_restful import Resource
-from models import db, User
-from schemas import users_schema, user_schema
-from extensions import log
 from marshmallow import ValidationError
 from sqlalchemy.exc import IntegrityError
+
+from extensions import log
+from models import User, db
+from schemas import user_schema, users_schema
 
 
 # /users route
@@ -25,16 +26,16 @@ class Users(Resource):
             validated_data = user_schema.load(data)
 
             # check for duplicates of email and phone before inserting
-            if User.query.filter_by(
-                email_address=validated_data["email_address"]
-            ).first():
-                return make_response(
-                    {"status": 409, "message": "Email address already taken"}, 409
-                )
-            if User.query.filter_by(phone=validated_data["phone"]).first():
-                return make_response(
-                    {"status": 409, "message": "Phone number already taken"}, 409
-                )
+            # if User.query.filter_by(
+            #     email_address=validated_data["email_address"]
+            # ).first():
+            #     return make_response(
+            #         {"status": 409, "message": "Email address already taken"}, 409
+            #     )
+            # if User.query.filter_by(phone=validated_data["phone"]).first():
+            #     return make_response(
+            #         {"status": 409, "message": "Phone number already taken"}, 409
+            #     )
 
             # create user instance
             user = User(

@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from flask_bcrypt import check_password_hash, generate_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData
 
@@ -24,6 +25,7 @@ class User(db.Model):
     last_name = db.Column(db.String, nullable=False)
     email_address = db.Column(db.String(150), nullable=False, unique=True)
     phone = db.Column(db.String, nullable=False, unique=True)
+    password = db.Column(db.String)
     created_at = db.Column(db.DateTime(), default=datetime.now())
     updated_at = db.Column(db.DateTime(), default=datetime.now())
 
@@ -35,6 +37,14 @@ class User(db.Model):
     books = db.relationship(
         "Book", back_populates="author", cascade="all, delete-orphan"
     )
+
+    # set_password
+    def set_password(self, user_pass):
+        self.password = generate_password_hash(password=user_pass).decode("utf-8")
+
+    # check_password -> return a boolean
+    def check_password(self, user_pass):
+        return check_password_hash(self.password, user_pass)
 
 
 class Profile(db.Model):
