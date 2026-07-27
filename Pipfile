@@ -11,6 +11,10 @@ python-dotenv = "*"
 flask-restful = "*"
 marshmallow = "*"
 structlog = "*"
+flask-bcrypt = "*"
+flask-cors = "*"
+psycopg2-binary = "*"
+gunicorn = "*"
 
 [dev-packages]
 
