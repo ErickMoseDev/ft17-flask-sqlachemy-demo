@@ -57,5 +57,25 @@ This covers the primary methods and functionalities offered by Flask-SQLAlchemy.
 
 ## Deployment
 
-- install psycopg2-binary gunicorn
--
+- install `psycopg2-binary` `gunicorn`
+- create a neon account
+- create a render account
+- push your work to github
+- get a database connection string from neon
+- replace the database uri on your env with the neon db connection string
+- run your migrations
+- seed your db
+- On Render: New → Web Service → connect repo
+    - Build Command:` pip install pipenv && pipenv install --deploy`
+    - Start Command: `gunicorn app:app` (adjust module:variable to match your file)
+
+```md
+# understanding gunicorn command
+
+"app:app" is the gunicorn start command syntax, telling it where to find your Flask application.
+
+It breaks down as `module_name:variable_name`:
+
+- First app — the Python file, i.e. app.py (without the .py extension)
+- Second app — the actual Flask instance variable inside that file, i.e. the line where you wrote app = Flask(**name**)
+```
