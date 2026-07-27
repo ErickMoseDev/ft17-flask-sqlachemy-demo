@@ -52,8 +52,12 @@ class Profile(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     dob = db.Column(db.Date, nullable=False)
-    gender = db.Column(db.Enum("male", "female"), nullable=False)
-    role = db.Column(db.Enum("admin", "staff", "user"), nullable=False, default="user")
+    gender = db.Column(db.Enum("male", "female", name="gender_enums"), nullable=False)
+    role = db.Column(
+        db.Enum("admin", "staff", "user", name="roles_enum"),
+        nullable=False,
+        default="user",
+    )
     bio = db.Column(db.String, nullable=True)
 
     # fk
